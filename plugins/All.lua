@@ -49,7 +49,7 @@ local function show_group_settings(target)
     end
   end
   local settings = data[tostring(target)]['settings']
-  local text = "Lock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nflood sensitivity : "..NUM_MSG_MAX
+  local text = "Lock group name : "..settings.lock_name.."\n\nLock group photo : "..settings.lock_photo.."\n\nLock group member : "..settings.lock_member.."\n\nflood sensitivity : "..NUM_MSG_MAX
   return text
 end
 
