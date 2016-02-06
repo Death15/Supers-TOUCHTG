@@ -591,7 +591,7 @@ local function setowner_by_reply(extra, success, result)
   data[tostring(msg.to.id)]['set_owner'] = tostring(msg.from.id)
       save_data(_config.moderation.data, data)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] setted ["..msg.from.id.."] as owner")
-      local text = msg.from.print_name:gsub("_", " ").." is the owner now"
+      local text = msg.from.print_name:gsub("_", " ").." has been promoted as moderator leader for this group"
       return send_large_msg(receiver, text)
 end
 
@@ -733,7 +733,7 @@ local function run(msg, matches)
       load_photo(msg.id, set_group_photo, msg)
     end
   end
-  if matches[1] == 'add' and not matches[2] then
+  if matches[1] == 'addmanager' and not matches[2] then
     if is_realm(msg) then
        return 'Error: Already a realm.'
     end
@@ -747,7 +747,7 @@ local function run(msg, matches)
     print("group "..msg.to.print_name.."("..msg.to.id..") added as a realm")
     return realmadd(msg)
   end
-  if matches[1] == 'rem' and not matches[2] then
+  if matches[1] == 'remmanager' and not matches[2] then
     print("group "..msg.to.print_name.."("..msg.to.id..") removed")
     return modrem(msg)
   end
@@ -1070,10 +1070,10 @@ local function run(msg, matches)
       end
       local group_link = data[tostring(msg.to.id)]['settings']['set_link']
       if not group_link then 
-        return "run \n /createlink"
+        return "run  /createlink"
       end
        savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group link ["..group_link.."]")
-      return "Group link:\n"..group_link
+      return "Groups invation link is:\n"..group_link
     end
     if matches[1] == 'spromote' and matches[2] then
       if not is_admin(msg) then
@@ -1220,9 +1220,9 @@ end
 
 return {
   patterns = {
-  "^[!/](modadd)$",
+  "^[!/](addmanager)$",
   "^[!/](add) (realm)$",
-  "^[!/](modrem)$",
+  "^[!/](remmanager)$",
   "^[!/](rem) (realm)$",
   "^[!/](rules)$",
   "^[!/](about)$",
