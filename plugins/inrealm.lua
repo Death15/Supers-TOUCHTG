@@ -286,9 +286,9 @@ local function admin_list(msg)
         data[tostring(admins)] = {}
         save_data(_config.moderation.data, data)
         end
-        local message = 'List for Realm admins:\n'
+        local message = 'List for Swatch admins:\n'
         for k,v in pairs(data[tostring(admins)]) do
-                message = message .. '- (at)' .. v .. ' [' .. k .. '] ' ..'\n'
+                message = message .. '- (👥Swatch)' .. v .. ' [' .. k .. '] ' ..'\n'
         end
         return message
 end
