@@ -131,7 +131,7 @@ local function run(msg, matches)
     elseif matches[1]:lower() == 'id' then
       local name = user_print_name(msg.from)
       savelog(msg.to.id, name.." ["..msg.from.id.."] used /id ")
-      return "Group ID for " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id  
+      return "Group ID: "..msg.to.id  
     end
   end
   if matches[1]:lower() == 'kickme' then-- /kickme
@@ -269,7 +269,7 @@ end
          	return false 
         end
         	banall_user(targetuser)
-       		return 'User ['..user_id..' ] globally banned'
+       		return 'User '..user_id..'  globally banned :)'
       else
 	local cbres_extra = {
 		chat_id = msg.to.id,
@@ -289,7 +289,7 @@ end
           	return false 
         end
        		unbanall_user(user_id)
-        	return 'User ['..user_id..' ] removed from global ban list'
+        	return 'User '..user_id..'  Unglobally Banned :)'
       else
 	local cbres_extra = {
 		chat_id = msg.to.id,
