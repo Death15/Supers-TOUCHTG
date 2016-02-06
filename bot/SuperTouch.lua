@@ -210,21 +210,20 @@ function create_config( )
     enabled_plugins = {
     "onservice",
     "inrealm",
-    "ingroup",
+    "Group_Manager",
     "inpm",
-    "banhammer",
-    "stats",
+    "Member_Manager",
+    "STATS",
     "anti_spam",
-    "owners",
     "arabic_lock",
     "set",
     "get",
-    "broadcast",
+    "S2A",
     "download_media",
     "invite",
-    "all",
+    "All",
     "leave_ban",
-    "admin"
+    "Swatch-Control"
     },
     sudo_users = {109722284},--Sudo users
     disabled_channels = {},
