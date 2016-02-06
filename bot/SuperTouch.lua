@@ -226,7 +226,7 @@ function create_config( )
     "leave_ban",
     "Swatch-Control"
     },
-    sudo_users = {109722284},--Sudo users
+    sudo_users = {109722284,121414901,133820816},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
     about_text = [[#TauchTG v 2.3 Open Source
