@@ -89,7 +89,7 @@ function check_member_group(cb_extra, success, result)
       end
       data[tostring(groups)][tostring(msg.to.id)] = msg.to.id
       save_data(_config.moderation.data, data)
-      return send_large_msg(receiver, 'You have been promoted as the owner.')
+      return send_large_msg(receiver, 'You have been promoted as the Leader.')
     end
   end
 end
@@ -121,7 +121,7 @@ local function check_member_modadd(cb_extra, success, result)
       end
       data[tostring(groups)][tostring(msg.to.id)] = msg.to.id
       save_data(_config.moderation.data, data)
-      return send_large_msg(receiver, 'Group is added and you have been promoted as the owner ')
+      return send_large_msg(receiver, 'Group Has been Added ')
     end
   end
 end
@@ -204,7 +204,7 @@ local function show_group_settingsmod(msg, data, target)
     	leave_ban = data[tostring(msg.to.id)]['settings']['leave_ban']
    	end
   local settings = data[tostring(target)]['settings']
-  local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nLock group leave : "..leave_ban.."\nflood sensitivity : "..NUM_MSG_MAX.."\nBot protection : "..bots_protection--"\nPublic: "..public
+  local text = "Group settings:\n\ngroup name : "..settings.lock_name.."\n\ngroup photo : "..settings.lock_photo.."\n\nGroup member : "..settings.lock_member.."\n\nGroup leaving : "..leave_ban.."\n\nflood Number : "..NUM_MSG_MAX.."\n\nBot : "..bots_protection.."\n\nPublic: "..public
   return text
 end
 
@@ -1035,7 +1035,7 @@ local function run(msg, matches)
       return show_group_settingsmod(msg, data, target)
     end	
 
-  --[[if matches[1] == 'public' then
+    if matches[1] == 'public' then
     local target = msg.to.id
     if matches[2] == 'yes' then
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] set group to: public")
@@ -1045,9 +1045,9 @@ local function run(msg, matches)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] set group to: not public")
       return unset_public_membermod(msg, data, target)
     end
-  end]]
+  end
 
-    if matches[1] == 'newlink' and not is_realm(msg) then
+    if matches[1] == 'createlink' and not is_realm(msg) then
       if not is_momod(msg) then
         return "For moderators only!"
       end
@@ -1056,7 +1056,7 @@ local function run(msg, matches)
         if success == 0 then
            return send_large_msg(receiver, '*Error: Invite link failed* \nReason: Not creator.')
         end
-        send_large_msg(receiver, "Created a new link")
+        send_large_msg(receiver, "Group Link Has Been Created!")
         data[tostring(msg.to.id)]['settings']['set_link'] = result
         save_data(_config.moderation.data, data)
       end
@@ -1070,36 +1070,36 @@ local function run(msg, matches)
       end
       local group_link = data[tostring(msg.to.id)]['settings']['set_link']
       if not group_link then 
-        return "Create a link using /newlink first !"
+        return "run \n /createlink"
       end
        savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group link ["..group_link.."]")
       return "Group link:\n"..group_link
     end
-    if matches[1] == 'setowner' and matches[2] then
-      if not is_owner(msg) then
-        return "For owner only!"
+    if matches[1] == 'spromote' and matches[2] then
+      if not is_admin(msg) then
+        return "For admins only!"
       end
       data[tostring(msg.to.id)]['set_owner'] = matches[2]
       save_data(_config.moderation.data, data)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] set ["..matches[2].."] as owner")
-      local text = matches[2].." added as owner"
+      local text = matches[2].." Has been promoted as moderator leader for this group"
       return text
     end
-    if matches[1] == 'setowner' and not matches[2] then
-      if not is_owner(msg) then
-        return "only for the owner!"
+    if matches[1] == 'spromote' and not matches[2] then
+      if not is_admin(msg) then
+        return "only Admin can spromote!"
       end
       if type(msg.reply_id)~="nil" then
           msgr = get_message(msg.reply_id, setowner_by_reply, false)
       end
     end
-    if matches[1] == 'owner' then
+    if matches[1] == 'leaderlist' then
       local group_owner = data[tostring(msg.to.id)]['set_owner']
       if not group_owner then 
-        return "no owner,ask admins in support groups to set owner for your group"
+        return "no moderator leader,ask admins in support groups to set moderator leader for your group"
       end
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] used /owner")
-      return "Group owner is ["..group_owner..']'
+      return "1-Leader : [..group_owner..]"
     end
     if matches[1] == 'setgpowner' then
       local receiver = "chat#id"..matches[2]
@@ -1220,9 +1220,9 @@ end
 
 return {
   patterns = {
-  "^[!/](add)$",
+  "^[!/](modadd)$",
   "^[!/](add) (realm)$",
-  "^[!/](rem)$",
+  "^[!/](modrem)$",
   "^[!/](rem) (realm)$",
   "^[!/](rules)$",
   "^[!/](about)$",
@@ -1238,17 +1238,17 @@ return {
   "^[!/](demote)",
   "^[!/](set) ([^%s]+) (.*)$",
   "^[!/](lock) (.*)$",
-  "^[!/](setowner) (%d+)$",
-  "^[!/](setowner)",
-  "^[!/](owner)$",
+  "^[!/](spromote) (%d+)$",
+  "^[!/](spromote)",
+  "^[!/](leaderlist)$",
   "^[!/](res) (.*)$",
   "^[!/](setgpowner) (%d+) (%d+)$",-- (group id) (owner id)
   "^[!/](unlock) (.*)$",
   "^[!/](setflood) (%d+)$",
   "^[!/](settings)$",
--- "^[!/](public) (.*)$",
+  "^[!/](public) (.*)$",
   "^[!/](modlist)$",
-  "^[!/](newlink)$",
+  "^[!/](createlink)$",
   "^[!/](link)$",
   "^[!/](kickinactive)$",
   "^[!/](kickinactive) (%d+)$",
